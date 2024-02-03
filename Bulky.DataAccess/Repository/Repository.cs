@@ -19,7 +19,7 @@ public class Repository<T> : IRepository<T> where T : class
         dbSet.Add(entity);
     }
 
-    public T Get(Expression<Func<T, bool>> filter)
+    public T? Get(Expression<Func<T, bool>> filter)
     {
         IQueryable<T> query = dbSet;
         query = query.Where(filter);
