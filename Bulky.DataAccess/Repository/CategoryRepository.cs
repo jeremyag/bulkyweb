@@ -11,10 +11,6 @@ public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
         _db = db;
     }
-    public void Save()
-    {
-        _db.SaveChanges();
-    }
 
     public void Update(Category category)
     {
