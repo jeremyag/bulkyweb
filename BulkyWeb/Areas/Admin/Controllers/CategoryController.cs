@@ -15,7 +15,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            var objCategoryList = _unitOfWork.Category.GetAll().ToList();
+            var objCategoryList = _unitOfWork.Categories.GetAll().ToList();
             return View(objCategoryList);
         }
 
@@ -33,7 +33,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                _unitOfWork.Category.Add(obj);
+                _unitOfWork.Categories.Add(obj);
                 _unitOfWork.Save();
 
                 TempData["Success"] = "Category created successfully";
@@ -48,7 +48,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var objCategory = _unitOfWork.Category.Get(u => u.Id == id);
+            var objCategory = _unitOfWork.Categories.Get(u => u.Id == id);
             if (objCategory == null)
             {
                 return NotFound();
@@ -62,7 +62,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Category.Update(obj);
+                _unitOfWork.Categories.Update(obj);
                 _unitOfWork.Save();
 
                 TempData["Success"] = "Category updated successfully";
@@ -77,7 +77,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var objCategory = _unitOfWork.Category.Get(u => u.Id == id);
+            var objCategory = _unitOfWork.Categories.Get(u => u.Id == id);
             if (objCategory == null)
             {
                 return NotFound();
@@ -89,10 +89,10 @@ namespace BulkyWeb.Areas.Admin.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
-            var objCategory = _unitOfWork.Category.Get(u => u.Id == id);
+            var objCategory = _unitOfWork.Categories.Get(u => u.Id == id);
             if (objCategory == null) { return NotFound(); }
 
-            _unitOfWork.Category.Remove(objCategory);
+            _unitOfWork.Categories.Remove(objCategory);
             _unitOfWork.Save();
 
             TempData["Success"] = "Category deleted successfully";
