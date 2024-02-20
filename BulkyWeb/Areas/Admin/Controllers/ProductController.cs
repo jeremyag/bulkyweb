@@ -1,7 +1,9 @@
 ﻿using Bulky.DataAccess.Repository;
 using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
+using Bulky.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BulkyWeb.Areas.Admin.Controllers
 {
@@ -21,21 +23,37 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            var productVm = new ProductVM()
+            {
+                CategoryList = _unitOfWork.Categories.GetAll().Select(u => new SelectListItem()
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }),
+                Product = new Product()
+            };
+            return View(productVm);
         }
         [HttpPost]
-        public IActionResult Create(Product product)
+        public IActionResult Create(ProductVM productVm)
         {
             if(ModelState.IsValid)
             {
-                _unitOfWork.Products.Add(product);
+                _unitOfWork.Products.Add(productVm.Product);
                 _unitOfWork.Save();
 
                 TempData["Success"] = "Product successfully created";
                 return RedirectToAction("Index");
             }
-
-            return View();
+            else
+            {
+                productVm.CategoryList = _unitOfWork.Categories.GetAll().Select(u => new SelectListItem()
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                });
+                return View(productVm);
+            }  
         }
 
         public IActionResult Edit(int? id) 
