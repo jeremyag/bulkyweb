@@ -37,6 +37,11 @@ public class CartController : Controller
         return View(ShoppingCartVM);
     }
 
+    public IActionResult Summary()
+    {
+        return View();
+    }
+
     public IActionResult Plus(int cartId)
     {
         var cart = _unitOfWork.ShoppingCarts.Get(c => c.Id == cartId);
