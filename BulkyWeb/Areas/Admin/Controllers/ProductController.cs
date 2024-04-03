@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace BulkyWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = SD.ROLE_ADMIN)]
+    [Authorize(Roles = SD.RoleAdmin)]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
