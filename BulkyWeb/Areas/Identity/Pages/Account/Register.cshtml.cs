@@ -127,13 +127,13 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if(!await _roleManager.RoleExistsAsync(SD.ROLE_CUSTOMER))
+            if(!await _roleManager.RoleExistsAsync(SD.RoleCustomer))
             {
-                await _roleManager.CreateAsync(new IdentityRole(SD.ROLE_ADMIN));
-                await _roleManager.CreateAsync(new IdentityRole(SD.ROLE_ADMIN));
-                await _roleManager.CreateAsync(new IdentityRole(SD.ROLE_EMPLOYEE));
-                await _roleManager.CreateAsync(new IdentityRole(SD.ROLE_CUSTOMER));
-                await _roleManager.CreateAsync(new IdentityRole(SD.ROLE_COMPANY));
+                await _roleManager.CreateAsync(new IdentityRole(SD.RoleAdmin));
+                await _roleManager.CreateAsync(new IdentityRole(SD.RoleAdmin));
+                await _roleManager.CreateAsync(new IdentityRole(SD.RoleEmployee));
+                await _roleManager.CreateAsync(new IdentityRole(SD.RoleCustomer));
+                await _roleManager.CreateAsync(new IdentityRole(SD.RoleCompany));
             }
 
             Input = new()
@@ -171,7 +171,7 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
                 user.PostalCode = Input.PostalCode;
                 user.PhoneNumber = Input.PhoneNumber;
 
-                if(Input.Role == SD.ROLE_COMPANY)
+                if(Input.Role == SD.RoleCompany)
                 {
                     user.CompanyId = Input.CompanyId;
                 }
@@ -188,7 +188,7 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _userManager.AddToRoleAsync(user, SD.ROLE_CUSTOMER);
+                        await _userManager.AddToRoleAsync(user, SD.RoleCustomer);
                     }
 
                     var userId = await _userManager.GetUserIdAsync(user);
