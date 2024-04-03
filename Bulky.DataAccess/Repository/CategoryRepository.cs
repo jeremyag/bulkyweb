@@ -4,16 +4,16 @@ using Bulky.Models;
 
 namespace Bulky.DataAccess.Repository;
 
-public class OrderHeaderRepository : Repository<OrderHeader>, IOrderHeaderRepository
+public class CategoryRepository : Repository<Category>, ICategoryRepository
 {
     private ApplicationDbContext _db;
-    public OrderHeaderRepository(ApplicationDbContext db) : base(db)
+    public CategoryRepository(ApplicationDbContext db) : base(db)
     {
         _db = db;
     }
 
-    public void Update(OrderHeader orderHeader)
+    public void Update(Category category)
     {
-        _db.OrderHeaders.Update(orderHeader);
+        _db.Categories.Update(category);
     }
 }

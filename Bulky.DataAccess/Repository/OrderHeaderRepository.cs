@@ -4,16 +4,44 @@ using Bulky.Models;
 
 namespace Bulky.DataAccess.Repository;
 
-public class CategoryRepository : Repository<Category>, ICategoryRepository
+public class OrderHeaderRepository : Repository<OrderHeader>, IOrderHeaderRepository
 {
     private ApplicationDbContext _db;
-    public CategoryRepository(ApplicationDbContext db) : base(db)
+    public OrderHeaderRepository(ApplicationDbContext db) : base(db)
     {
         _db = db;
     }
 
-    public void Update(Category category)
+    public void Update(OrderHeader orderHeader)
     {
-        _db.Categories.Update(category);
+        _db.OrderHeaders.Update(orderHeader);
+    }
+
+    public void UpdateStatus(int id, string orderStatus, string? paymentStatus = null)
+    {
+        var orderFromDb = _db.OrderHeaders.FirstOrDefault(u => u.Id == id);
+        if(orderFromDb != null)
+        {
+            orderFromDb.OrderStatus = orderStatus;
+            if(!string.IsNullOrEmpty(paymentStatus))
+            {
+                orderFromDb.PaymentStatus = paymentStatus;
+            }
+        }
+    }
+
+    public void UpdateStripePaymentId(int id, string sessionId, string paymentIntentId)
+    {
+        var orderFromDb = _db.OrderHeaders.FirstOrDefault(u => u.Id == id);
+        if(!string.IsNullOrEmpty(sessionId))
+        {
+            orderFromDb.SessionId = sessionId;
+        }
+
+        if(!string.IsNullOrEmpty(paymentIntentId))
+        {
+            orderFromDb.PaymentIntentId = paymentIntentId;
+            orderFromDb.PaymentDate = DateTime.UtcNow;
+        }
     }
 }
