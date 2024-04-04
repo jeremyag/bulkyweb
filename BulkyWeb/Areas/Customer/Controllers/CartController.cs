@@ -173,6 +173,7 @@ public class CartController : Controller
                 _unitOfWork.Save();
             }
         }
+        HttpContext.Session.Clear();
 
         List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCarts
             .GetAll(u => u.ApplicationUserId == orderHeader.ApplicationUserId).ToList();
